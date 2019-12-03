@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 public class ConwayBoard extends JPanel implements MouseListener {
-	private static final int PANELSIZE = 1000;
+	private static final int PANELSIZE = 800;
 	private boolean[][] map;
 	private List<BoardListener> listeners;
 	
