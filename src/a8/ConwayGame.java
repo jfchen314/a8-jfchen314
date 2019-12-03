@@ -1,5 +1,7 @@
 package a8;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -8,6 +10,7 @@ public class ConwayGame {
 		JFrame main_frame = new JFrame();
 		main_frame.setTitle("Conway's Game o' Life");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		main_frame.setLayout(new BorderLayout());
 		
 		int size = -1;
 		try {
@@ -27,7 +30,7 @@ public class ConwayGame {
 			JOptionPane.showMessageDialog(main_frame, "Invalid Input (10 - 500)");
 		} else {
 			ConwayModel model = new ConwayModel(size);
-			ConwayView view = new ConwayView(size);
+			ConwayView view = new ConwayView(size, main_frame);
 			ConwayController controller = new ConwayController(model, view);
 			
 			main_frame.setContentPane(view);

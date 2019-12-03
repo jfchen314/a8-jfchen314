@@ -26,6 +26,9 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 			model.toggleSpot(s.getX(), s.getY());
 		} else if(e.isStepEvent()) {
 			model.step();
+		} else if(e.isSettingsEvent()) {
+			SettingsEvent s = (SettingsEvent) e;
+			model.setParams(s.getSLow(), s.getSHigh(), s.getBLow(), s.getBHigh(), s.getTorus());
 		}
 		
 	}
