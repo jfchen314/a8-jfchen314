@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ConwayView extends JPanel implements ActionListener, BoardListener {
@@ -17,9 +19,11 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 	private List<ConwayViewListener> listeners;
 	private JPanel button_panel;
 	private int size;
+	private JFrame main_frame;
 	
-	public ConwayView(int size) {
+	public ConwayView(int size, JFrame main_frame) {
 		this.size = size;
+		this.main_frame = main_frame;
 		
 		setLayout(new BorderLayout());
 		
@@ -32,10 +36,12 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 		listeners = new ArrayList<>();
 		
 		
+		button_panel.add(new JButton("Settings"));
 		button_panel.add(new JButton("Clear"));
 		button_panel.add(new JButton("Pause"));
 		button_panel.add(new JButton("Random"));
 		button_panel.add(new JButton("Step"));
+		
 		
 		for(Component c: button_panel.getComponents()) {
 			JButton b = (JButton) c;
@@ -86,6 +92,22 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 		case "Step":
 			System.out.println("Step");
 			fireEvent(new StepEvent());
+			break;
+		case "Settings":
+			System.out.println("Settings");
+			try {
+				fireEvent(new SettingsEvent(
+						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Survive Low", "", JOptionPane.PLAIN_MESSAGE,null,null,"2")),
+						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Survive High", "", JOptionPane.PLAIN_MESSAGE,null,null,"3")),
+						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Birth Low", "", JOptionPane.PLAIN_MESSAGE,null,null,"3")),
+						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Birth High", "", JOptionPane.PLAIN_MESSAGE,null,null,"3")),
+						Boolean.parseBoolean((String)JOptionPane.showInputDialog(main_frame, "Torus? (true/false)", "", JOptionPane.PLAIN_MESSAGE,null,null,"false"))
+					));
+
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(main_frame,
+				    "Invalid Parameters");
+			}
 			break;
 		}
 	}
