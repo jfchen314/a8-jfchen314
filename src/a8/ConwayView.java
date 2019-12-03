@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ConwayView extends JPanel implements ActionListener, BoardListener {
@@ -32,10 +33,12 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 		listeners = new ArrayList<>();
 		
 		
+		button_panel.add(new JButton("Settings"));
 		button_panel.add(new JButton("Clear"));
 		button_panel.add(new JButton("Pause"));
 		button_panel.add(new JButton("Random"));
 		button_panel.add(new JButton("Step"));
+		
 		
 		for(Component c: button_panel.getComponents()) {
 			JButton b = (JButton) c;
@@ -87,6 +90,8 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 			System.out.println("Step");
 			fireEvent(new StepEvent());
 			break;
+		case "Settings":
+			//TODO
 		}
 	}
 
