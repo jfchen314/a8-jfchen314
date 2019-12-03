@@ -40,7 +40,6 @@ public class ConwayBoard extends JPanel implements MouseListener {
 		super.paintComponent(g);
 
 		int iter = PANELSIZE / map.length;
-		System.out.println(iter);
 		
 		Graphics2D g2d = (Graphics2D) g.create();
 		
