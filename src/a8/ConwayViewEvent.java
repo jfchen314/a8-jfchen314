@@ -17,6 +17,10 @@ abstract public class ConwayViewEvent {
 		return false;
 	}
 	
+	public boolean isPlayEvent() {
+		return false;
+	}
+	
 	public boolean isStepEvent() {
 		return false;
 	}
@@ -63,6 +67,12 @@ class PauseEvent extends ConwayViewEvent {
 	}
 }
 
+class PlayEvent extends ConwayViewEvent {
+	public boolean isPlayEvent() {
+		return true;
+	}
+}
+
 class StepEvent extends ConwayViewEvent {
 	public boolean isStepEvent() {
 		return true;
@@ -70,19 +80,23 @@ class StepEvent extends ConwayViewEvent {
 }
 
 class SettingsEvent extends ConwayViewEvent {
-	private int survivelow, survivehigh, birthlow, birthhigh;
+	private int delay, survivelow, survivehigh, birthlow, birthhigh;
 	private boolean torus;
-	public SettingsEvent(int survivelow, int survivehigh, int birthlow, int birthhigh, boolean torus) {
+	public SettingsEvent(int delay, int survivelow, int survivehigh, int birthlow, int birthhigh, boolean torus) {
+		if(delay < 0) throw new RuntimeException("Bad Delay");
 		if(survivelow > survivehigh || birthlow > birthhigh ||
 		   birthhigh > 8 || survivehigh > 8 ||
-		   birthlow < 0 || survivelow < 0) throw new RuntimeException();
+		   birthlow < 0 || survivelow < 0) throw new RuntimeException("Bad Params");
+		this.delay = delay;
 		this.survivelow = survivelow;
 		this.survivehigh = survivehigh;
 		this.birthlow = birthlow;
 		this.birthhigh = birthhigh;
 		this.torus = torus;
 	}
-	
+	public int getDelay() {
+		return delay;
+	}
 	public int getSLow() {
 		return survivelow;
 	}

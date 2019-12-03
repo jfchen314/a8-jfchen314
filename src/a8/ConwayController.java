@@ -4,11 +4,16 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 
 	private ConwayModel model;
 	private ConwayView view;
+	private BackgroundTimer bt;
+	private int delay;
 	
 	public ConwayController(ConwayModel model, ConwayView view) {
 		this.model = model;
 		this.view = view;
+				
+		delay = 200;
 		
+		bt = new BackgroundTimer(model, delay);
 		view.addConwayViewListener(this);
 		model.addObserver(this);
 	}
@@ -16,7 +21,14 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 	@Override
 	public void handleConwayViewEvent(ConwayViewEvent e) {
 		if(e.isPauseEvent()) {
-			
+			bt.halt();
+			try {
+				bt.join();
+			} catch (InterruptedException e1) {
+			}
+		} else if(e.isPlayEvent()) {
+			bt = new BackgroundTimer(model, delay);
+			bt.start();
 		} else if(e.isRandomEvent()) {
 			model.randomize();
 		} else if(e.isResetEvent()) {
@@ -28,6 +40,8 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 			model.step();
 		} else if(e.isSettingsEvent()) {
 			SettingsEvent s = (SettingsEvent) e;
+			delay = s.getDelay();
+			bt.setDelay(delay);
 			model.setParams(s.getSLow(), s.getSHigh(), s.getBLow(), s.getBHigh(), s.getTorus());
 		}
 		

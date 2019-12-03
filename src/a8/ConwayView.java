@@ -38,7 +38,7 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 		
 		button_panel.add(new JButton("Settings"));
 		button_panel.add(new JButton("Clear"));
-		button_panel.add(new JButton("Pause"));
+		button_panel.add(new JButton("Play"));
 		button_panel.add(new JButton("Random"));
 		button_panel.add(new JButton("Step"));
 		
@@ -78,25 +78,26 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 		JButton button = (JButton) e.getSource();
 		switch(button.getText()) {
 		case "Clear":
-			System.out.println("Clear");
 			fireEvent(new ResetEvent());
 			break;
 		case "Pause":
-			System.out.println("Pause");
+			button.setText("Play");
 			fireEvent(new PauseEvent());
 			break;
+		case "Play":
+			button.setText("Pause");
+			fireEvent(new PlayEvent());
+			break;
 		case "Random":
-			System.out.println("Random");
 			fireEvent(new RandomEvent());
 			break;
 		case "Step":
-			System.out.println("Step");
 			fireEvent(new StepEvent());
 			break;
 		case "Settings":
-			System.out.println("Settings");
 			try {
 				fireEvent(new SettingsEvent(
+						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Timer Delay (ms)", "", JOptionPane.PLAIN_MESSAGE,null,null,"200")),
 						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Survive Low", "", JOptionPane.PLAIN_MESSAGE,null,null,"2")),
 						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Survive High", "", JOptionPane.PLAIN_MESSAGE,null,null,"3")),
 						Integer.parseInt((String)JOptionPane.showInputDialog(main_frame, "Birth Low", "", JOptionPane.PLAIN_MESSAGE,null,null,"3")),
@@ -105,6 +106,8 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 					));
 
 			} catch (Exception ex) {
+				System.out.println(ex.getMessage());
+				ex.printStackTrace();
 				JOptionPane.showMessageDialog(main_frame,
 				    "Invalid Parameters");
 			}
@@ -114,7 +117,6 @@ public class ConwayView extends JPanel implements ActionListener, BoardListener 
 
 	@Override
 	public void boardClicked(int x, int y) {
-		System.out.println("Square");
 		fireEvent(new SquareEvent(x, y));
 	}
 }
